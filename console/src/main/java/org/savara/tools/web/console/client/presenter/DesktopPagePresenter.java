@@ -1,0 +1,93 @@
+/*
+ * JBoss, Home of Professional Open Source
+ * Copyright 2008-11, Red Hat Middleware LLC, and others contributors as indicated
+ * by the @authors tag. All rights reserved.
+ * See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
+ * This copyrighted material is made available to anyone wishing to use,
+ * modify, copy, or redistribute it subject to the terms and conditions
+ * of the GNU Lesser General Public License, v. 2.1.
+ * This program is distributed in the hope that it will be useful, but WITHOUT A
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License,
+ * v.2.1 along with this distribution; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA  02110-1301, USA.
+ */
+package org.savara.tools.web.console.client.presenter;
+
+import com.google.gwt.event.shared.EventBus;
+import com.google.inject.Inject;
+import com.gwtplatform.mvp.client.Presenter;
+import com.gwtplatform.mvp.client.View;
+import com.gwtplatform.mvp.client.annotations.NameToken;
+import com.gwtplatform.mvp.client.annotations.ProxyStandard;
+import com.gwtplatform.mvp.client.annotations.UseGatekeeper;
+import com.gwtplatform.mvp.client.proxy.PlaceManager;
+import com.gwtplatform.mvp.client.proxy.PlaceRequest;
+import com.gwtplatform.mvp.client.proxy.ProxyPlace;
+import com.gwtplatform.mvp.client.proxy.RevealRootContentEvent;
+import org.savara.tools.web.console.client.NameTokens;
+import org.savara.tools.web.console.client.auth.LoggedInGateKeeper;
+
+/**
+ * @author: Jeff Yu
+ * @date: 11/05/11
+ */
+public class DesktopPagePresenter extends Presenter<DesktopPagePresenter.DesktopView,
+                                                    DesktopPagePresenter.DesktopProxy>{
+
+
+    private PlaceManager placeManager;
+
+    @Inject
+    public DesktopPagePresenter(EventBus eventBus, DesktopView view, DesktopProxy proxy, PlaceManager placeManager) {
+        super(eventBus, view, proxy);
+        this.placeManager = placeManager;
+    }
+
+    public interface DesktopView extends View {
+
+        public void setPresenter(DesktopPagePresenter presenter);
+
+        public void showEventDetailWindow();
+
+        public void showBizTxnWindow();
+    }
+
+
+    @ProxyStandard
+    @NameToken(NameTokens.DESKTOP_WINDOW)
+    public interface DesktopProxy extends ProxyPlace<DesktopPagePresenter> {}
+
+
+    @Override
+    protected void revealInParent() {
+        RevealRootContentEvent.fire(this, this);
+    }
+
+
+    @Override
+    public void onBind() {
+        super.onBind();
+        getView().setPresenter(this);
+    }
+
+
+    public void logout() {
+
+        getView().asWidget().setVisible(false);
+        PlaceRequest loginPlace = new PlaceRequest(NameTokens.LOGIN_VIEW);
+        placeManager.revealPlace(loginPlace);
+    }
+
+    public void showEventDetailWindow() {
+        getView().showEventDetailWindow();
+    }
+
+    public void showBusinessTransactionViewerWindow() {
+        getView().showBizTxnWindow();
+    }
+
+}

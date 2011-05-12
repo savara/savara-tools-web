@@ -1,1 +1,18 @@
 This is the SAVARA web console.
+
+=== Build ==
+
+Run:
+
+mvn clean install
+
+
+=== Debug ===
+
+Go to the console folder, run:
+
+mvn gwt:run
+
+
+
+PS: icons are found at here: http://findicons.com/pack/1581/silk

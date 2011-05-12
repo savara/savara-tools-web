@@ -12,12 +12,17 @@
 
   <!-- Other module inherits                                      -->
   <inherits name="com.smartgwt.SmartGwt" />
+  <inherits name="com.gwtplatform.mvp.Mvp" />
+  <inherits name="com.google.gwt.inject.Inject" />
+
 
   <!-- Specify the app entry point class.                         -->
-  <entry-point class='org.savara.tools.web.console.client.ConsoleModule'/>
+  <entry-point class='org.savara.tools.web.console.client.ConsoleEntryPoint'/>
 
-  <!-- Specify the paths for translatable code                    -->
+  <define-configuration-property name="gin.ginjector" is-multi-valued="false" />
+  <set-configuration-property name="gin.ginjector" value="org.savara.tools.web.console.client.ConsoleUI" />
+
+  <!-- Specify the paths for translatable code  -->
   <source path='client'/>
-  <source path='shared'/>
 
 </module>
