@@ -62,7 +62,7 @@ public class LoginPresenter extends Presenter<LoginPresenter.LoginView,
 
         public void setPresenter(LoginPresenter presenter);
 
-        public void hide();
+        public void close();
 
         public void show();
 
@@ -79,16 +79,14 @@ public class LoginPresenter extends Presenter<LoginPresenter.LoginView,
        getView().setPresenter(this);
     }
 
-
     @Override
     public void onReveal() {
-        super.onReveal();
         getView().show();
     }
 
     public void login(String name, String password) {
         //TODO: validate it from backend server;
-        getView().hide();
+        getView().close();
 
         currentUser.setUserName(name);
         currentUser.setLoggedIn(true);

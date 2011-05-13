@@ -54,6 +54,8 @@ public class DesktopPagePresenter extends Presenter<DesktopPagePresenter.Desktop
         public void showEventDetailWindow();
 
         public void showBizTxnWindow();
+
+        public void closeAllWindows();
     }
 
 
@@ -76,8 +78,7 @@ public class DesktopPagePresenter extends Presenter<DesktopPagePresenter.Desktop
 
 
     public void logout() {
-
-        getView().asWidget().setVisible(false);
+        getView().closeAllWindows();
         PlaceRequest loginPlace = new PlaceRequest(NameTokens.LOGIN_VIEW);
         placeManager.revealPlace(loginPlace);
     }

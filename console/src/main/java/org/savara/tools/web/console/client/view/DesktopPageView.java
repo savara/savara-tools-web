@@ -21,6 +21,9 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewImpl;
 import com.smartgwt.client.widgets.Window;
+import com.smartgwt.client.widgets.events.ClickEvent;
+import com.smartgwt.client.widgets.events.MinimizeClickEvent;
+import com.smartgwt.client.widgets.events.MinimizeClickHandler;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.fields.TextItem;
 import com.smartgwt.client.widgets.layout.HLayout;
@@ -29,7 +32,9 @@ import com.smartgwt.client.widgets.menu.MenuItem;
 import com.smartgwt.client.widgets.menu.events.ClickHandler;
 import com.smartgwt.client.widgets.menu.events.MenuItemClickEvent;
 import com.smartgwt.client.widgets.toolbar.ToolStrip;
+import com.smartgwt.client.widgets.toolbar.ToolStripButton;
 import com.smartgwt.client.widgets.toolbar.ToolStripMenuButton;
+import org.savara.tools.web.console.client.icons.ConsoleIconBundle;
 import org.savara.tools.web.console.client.presenter.DesktopPagePresenter;
 
 /**
@@ -46,12 +51,16 @@ public class DesktopPageView extends ViewImpl implements DesktopPagePresenter.De
 
     private Window bizTransactionWindow;
 
+    private ToolStrip toolstrip;
+
+    private boolean destroyed = false;
+
     @Inject
     public DesktopPageView() {
        layout = new HLayout(0);
-       layout.setWidth("99.5%");
+       layout.setWidth("100%");
 
-       ToolStrip toolstrip = new ToolStrip();
+       toolstrip = new ToolStrip();
        toolstrip.setWidth("100%");
 
        ToolStripMenuButton menuButton = new ToolStripMenuButton("Applications", getApplicationsMenus());
@@ -66,9 +75,9 @@ public class DesktopPageView extends ViewImpl implements DesktopPagePresenter.De
         menu.setShowShadow(true);
         menu.setShadowDepth(3);
 
-        MenuItem logout = new MenuItem("Logout", "/images/buttons/logout.png");
-        MenuItem eventDetail = new MenuItem("Event Detail", "/images/buttons/event_detail.png");
-        MenuItem transaction = new MenuItem("Transaction Viewer", "/images/buttons/transaction_view.png");
+        MenuItem logout = new MenuItem("Logout", ConsoleIconBundle.INSTANCE.logoutIcon().getURL());
+        MenuItem eventDetail = new MenuItem("Event Detail", ConsoleIconBundle.INSTANCE.eventDetailIcon().getURL());
+        MenuItem transaction = new MenuItem("Transaction Viewer", ConsoleIconBundle.INSTANCE.transactionViewIcon().getURL());
 
         menu.setItems(eventDetail, transaction, logout);
 
@@ -105,37 +114,98 @@ public class DesktopPageView extends ViewImpl implements DesktopPagePresenter.De
 
 
     public void showEventDetailWindow() {
-        eventDetailWindow = new Window();
+        if (eventDetailWindow != null && !destroyed) {
+            eventDetailWindow.show();
+        } else {
+            eventDetailWindow = new Window();
 
-        eventDetailWindow.setHeaderIcon("/images/buttons/event_detail.png");
-        eventDetailWindow.setTitle("Event Detail");
-        eventDetailWindow.setWidth("60%");
-        eventDetailWindow.setHeight(500);
+            eventDetailWindow.setHeaderIcon(ConsoleIconBundle.INSTANCE.eventDetailIcon().getURL());
+            eventDetailWindow.setTitle("Event Detail");
+            eventDetailWindow.setWidth("60%");
+            eventDetailWindow.setHeight(500);
+            eventDetailWindow.addMinimizeClickHandler(new MinimizeClickHandler() {
+                public void onMinimizeClick(MinimizeClickEvent minimizeClickEvent) {
+                   eventDetailWindow.hide();
+                    final ToolStripButton button = new ToolStripButton();
+                    button.setIcon(ConsoleIconBundle.INSTANCE.eventDetailIcon().getURL());
+                    button.setTitle("Event Detail");
+                    button.setWidth("60");
 
-        DynamicForm form = new DynamicForm();
-        TextItem activityItem = new TextItem();
-        activityItem.setTitle("Activity ID");
+                    button.addClickHandler(new com.smartgwt.client.widgets.events.ClickHandler() {
+                        public void onClick(ClickEvent clickEvent) {
+                            eventDetailWindow.restore();
+                            eventDetailWindow.show();
+                            eventDetailWindow.centerInPage();
+                            toolstrip.removeMember(button);
+                        }
+                    });
 
-        form.setItems(activityItem);
+                    toolstrip.addButton(button);
+                }
+            });
 
-        eventDetailWindow.addItem(form);
+            DynamicForm form = new DynamicForm();
+            TextItem activityItem = new TextItem();
+            activityItem.setTitle("Activity ID");
 
-        eventDetailWindow.show();
+            form.setItems(activityItem);
 
-        eventDetailWindow.centerInPage();
+            eventDetailWindow.addItem(form);
 
+            eventDetailWindow.show();
+
+            eventDetailWindow.centerInPage();
+
+        }
     }
 
 
     public void showBizTxnWindow() {
-        bizTransactionWindow = new Window();
-        bizTransactionWindow.setHeaderIcon("/images/buttons/transaction_view.png");
-        bizTransactionWindow.setTitle("Transaction Viewer");
-        bizTransactionWindow.setWidth("60%");
-        bizTransactionWindow.setHeight(500);
+        if (bizTransactionWindow != null && !destroyed) {
+            bizTransactionWindow.show();
+        } else {
+            bizTransactionWindow = new Window();
+            bizTransactionWindow.setHeaderIcon(ConsoleIconBundle.INSTANCE.transactionViewIcon().getURL());
+            bizTransactionWindow.setTitle("Transaction Viewer");
+            bizTransactionWindow.setWidth("60%");
+            bizTransactionWindow.setHeight(500);
 
-        bizTransactionWindow.show();
-        bizTransactionWindow.centerInPage();
+            bizTransactionWindow.show();
+            bizTransactionWindow.centerInPage();
+
+
+            bizTransactionWindow.addMinimizeClickHandler(new MinimizeClickHandler() {
+                public void onMinimizeClick(MinimizeClickEvent minimizeClickEvent) {
+                    bizTransactionWindow.hide();
+                    final ToolStripButton button = new ToolStripButton();
+                    button.setIcon(ConsoleIconBundle.INSTANCE.transactionViewIcon().getURL());
+                    button.setTitle("Transaction Viewer");
+                    button.setWidth("60");
+
+                    button.addClickHandler(new com.smartgwt.client.widgets.events.ClickHandler() {
+                        public void onClick(ClickEvent clickEvent) {
+                            bizTransactionWindow.restore();
+                            bizTransactionWindow.show();
+                            bizTransactionWindow.centerInPage();
+                            toolstrip.removeMember(button);
+                        }
+                    });
+
+                    toolstrip.addButton(button);
+                }
+            });
+        }
+    }
+
+
+    public void closeAllWindows() {
+        if (eventDetailWindow != null) {
+            eventDetailWindow.destroy();
+        }
+        if (bizTransactionWindow != null) {
+            bizTransactionWindow.destroy();
+        }
+        destroyed = true;
     }
 
 }

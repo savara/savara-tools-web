@@ -1,7 +1,9 @@
 package org.savara.tools.web.console.client;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
 import com.gwtplatform.mvp.client.DelayedBindRegistry;
 
 /**
@@ -12,7 +14,21 @@ public class ConsoleEntryPoint implements EntryPoint {
     public final ConsoleUI consoleUI = GWT.create(ConsoleUI.class);
 
     public void onModuleLoad() {
+
+        Log.setUncaughtExceptionHandler();
+
+        Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand(){
+
+            public void execute() {
+                actualModuleLoad();
+            }
+        });
+    }
+
+
+    public void actualModuleLoad() {
         DelayedBindRegistry.bind(consoleUI);
         consoleUI.getPlaceManager().revealCurrentPlace();
+
     }
 }

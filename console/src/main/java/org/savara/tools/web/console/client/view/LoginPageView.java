@@ -32,6 +32,7 @@ import com.smartgwt.client.widgets.form.fields.PasswordItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
 import com.smartgwt.client.widgets.layout.HLayout;
 import org.savara.tools.web.console.client.Build;
+import org.savara.tools.web.console.client.icons.ConsoleIconBundle;
 import org.savara.tools.web.console.client.presenter.LoginPresenter;
 
 /**
@@ -53,7 +54,7 @@ public class LoginPageView extends ViewImpl implements LoginPresenter.LoginView 
     public LoginPageView() {
 
         window = new Window();
-        window.setHeaderIcon("/images/savara_icon.png");
+        window.setHeaderIcon(ConsoleIconBundle.INSTANCE.savaraIcon().getURL());
         window.setTitle("console");
         window.setWidth(300);
         window.setHeight(150);
@@ -109,17 +110,13 @@ public class LoginPageView extends ViewImpl implements LoginPresenter.LoginView 
     }
 
 
-    public void hide() {
+    public void close() {
         window.hide();
     }
 
     public void show() {
-        reset();
-        window.show();
-    }
-
-    protected void reset() {
         passwordItem.clearValue();
+        window.show();
     }
 
 }
