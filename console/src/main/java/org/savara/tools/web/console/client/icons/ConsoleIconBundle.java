@@ -24,4 +24,7 @@ public interface ConsoleIconBundle extends ClientBundle{
     @Source("savara_icon.png")
     ImageResource savaraIcon();
 
+    @Source("settings.png")
+    ImageResource settingsIcon();
+
 }

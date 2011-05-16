@@ -55,6 +55,8 @@ public class DesktopPagePresenter extends Presenter<DesktopPagePresenter.Desktop
 
         public void showBizTxnWindow();
 
+        public void showSettingsWindow();
+
         public void closeAllWindows();
     }
 
@@ -90,5 +92,11 @@ public class DesktopPagePresenter extends Presenter<DesktopPagePresenter.Desktop
     public void showBusinessTransactionViewerWindow() {
         getView().showBizTxnWindow();
     }
+
+
+    public void showSettingsWindow() {
+        getView().showSettingsWindow();
+    }
+
 
 }

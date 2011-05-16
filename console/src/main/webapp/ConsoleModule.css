@@ -1,3 +1,6 @@
 /** Add css rules here for your application. */
 
-body{margin:0}
+body{
+    margin:0;
+    background-image:url(images/desktop_savara.jpg);
+}
