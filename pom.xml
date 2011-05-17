@@ -60,6 +60,7 @@
     </properties>
 
   <modules>
+    <module>server</module>
     <module>console</module>
   </modules>
 
