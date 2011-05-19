@@ -33,6 +33,11 @@
   <set-property name="log_FirebugLogger" value="DISABLED" />
   <set-property name="log_WindowLogger" value="DISABLED" />
 
+  <inherits name="com.google.gwt.autobean.AutoBean" />
+  <inherits name="com.google.gwt.json.JSON" />
+
+  <inherits name="com.google.gwt.http.HTTP" />
+
   <set-configuration-property name="log_pattern" value="%d [%-5p] %m%n" />
 
   <!-- Specify the paths for translatable code  -->

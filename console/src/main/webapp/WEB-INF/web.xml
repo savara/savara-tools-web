@@ -5,6 +5,22 @@
 
 <web-app>
 
+  <servlet>
+     <servlet-name>gwtProxy</servlet-name>
+     <description>GWT Proxy</description>
+     <servlet-class>org.savara.tools.web.console.server.proxy.XmlHttpProxyServlet</servlet-class>
+     <init-param>
+         <param-name>config.name</param-name>
+         <param-value>gwt-proxy.properties</param-value>
+     </init-param>
+     <load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet-mapping>
+      <servlet-name>gwtProxy</servlet-name>
+      <url-pattern>/app/proxy/*</url-pattern>
+  </servlet-mapping>
+    
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>ConsoleModule.html</welcome-file>
