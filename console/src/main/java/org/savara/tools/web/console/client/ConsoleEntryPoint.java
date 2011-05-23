@@ -11,7 +11,7 @@ import com.gwtplatform.mvp.client.DelayedBindRegistry;
  */
 public class ConsoleEntryPoint implements EntryPoint {
 
-    public final ConsoleUI consoleUI = GWT.create(ConsoleUI.class);
+    public static final ConsoleUI MODULE = GWT.create(ConsoleUI.class);
 
     public void onModuleLoad() {
 
@@ -27,8 +27,8 @@ public class ConsoleEntryPoint implements EntryPoint {
 
 
     public void actualModuleLoad() {
-        DelayedBindRegistry.bind(consoleUI);
-        consoleUI.getPlaceManager().revealCurrentPlace();
+        DelayedBindRegistry.bind(MODULE);
+        MODULE.getPlaceManager().revealCurrentPlace();
 
     }
 }

@@ -36,6 +36,8 @@ import org.savara.tools.web.console.client.presenter.LoginPresenter;
 @GinModules(ConsoleModule.class)
 public interface ConsoleUI extends Ginjector {
 
+    BootstrapContext getBootstrapContext();
+
     PlaceManager getPlaceManager();
 
     EventBus getEventBus();

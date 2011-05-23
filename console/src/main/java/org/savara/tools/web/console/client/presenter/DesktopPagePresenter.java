@@ -17,19 +17,27 @@
  */
 package org.savara.tools.web.console.client.presenter;
 
+import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.json.client.JSONValue;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyStandard;
-import com.gwtplatform.mvp.client.annotations.UseGatekeeper;
 import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.client.proxy.PlaceRequest;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.gwtplatform.mvp.client.proxy.RevealRootContentEvent;
+import org.fusesource.restygwt.client.*;
+import org.savara.tools.web.console.client.ApplicationProperties;
+import org.savara.tools.web.console.client.ConsoleEntryPoint;
 import org.savara.tools.web.console.client.NameTokens;
-import org.savara.tools.web.console.client.auth.LoggedInGateKeeper;
+import org.savara.tools.web.console.client.model.activity.ComponentActivity;
+import org.savara.tools.web.console.client.svc.ActivityService;
+
+import java.util.List;
 
 /**
  * @author: Jeff Yu
@@ -41,10 +49,15 @@ public class DesktopPagePresenter extends Presenter<DesktopPagePresenter.Desktop
 
     private PlaceManager placeManager;
 
+    private ActivityService activityService;
+
     @Inject
     public DesktopPagePresenter(EventBus eventBus, DesktopView view, DesktopProxy proxy, PlaceManager placeManager) {
         super(eventBus, view, proxy);
         this.placeManager = placeManager;
+
+        Defaults.setServiceRoot(ConsoleEntryPoint.MODULE.getBootstrapContext().getProperty(ApplicationProperties.SERVICE_URL));
+        activityService = GWT.create(ActivityService.class);
     }
 
     public interface DesktopView extends View {
@@ -87,6 +100,7 @@ public class DesktopPagePresenter extends Presenter<DesktopPagePresenter.Desktop
 
     public void showEventDetailWindow() {
         getView().showEventDetailWindow();
+        getData();
     }
 
     public void showBusinessTransactionViewerWindow() {
@@ -98,5 +112,18 @@ public class DesktopPagePresenter extends Presenter<DesktopPagePresenter.Desktop
         getView().showSettingsWindow();
     }
 
+    private void getData() {
+
+        activityService.getComponentActivities(new MethodCallback<List<ComponentActivity>>() {
+            public void onFailure(Method method, Throwable throwable) {
+                Log.error("error: => " + throwable);
+            }
+
+            public void onSuccess(Method method, List<ComponentActivity> componentActivities) {
+                Log.info("The text is " + method.getResponse().getText());
+                Log.info("====> " + componentActivities.size());
+            }
+        });
+    }
 
 }

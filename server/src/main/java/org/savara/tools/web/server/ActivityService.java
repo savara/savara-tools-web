@@ -18,6 +18,7 @@
 package org.savara.tools.web.server;
 
 import org.savara.activity.model.ComponentActivity;
+import org.savara.activity.model.Status;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -43,11 +44,23 @@ public class ActivityService {
        List<ComponentActivity> acts = new ArrayList<ComponentActivity>();
        ComponentActivity act = new ComponentActivity();
        act.setComponentId("componentId");
-       act.setComponentName("<name>component name.</name>");
-       GregorianCalendar c = new GregorianCalendar();
+       act.setComponentName("component name");
+/*       GregorianCalendar c = new GregorianCalendar();
        c.setTime(new Date());
-       act.setTimestamp(DatatypeFactory.newInstance().newXMLGregorianCalendar(c));
+       act.setTimestamp(DatatypeFactory.newInstance().newXMLGregorianCalendar(c));*/
+       act.setId("2053");
+       act.setInstanceId("1");
+       act.setStatus(Status.STARTED);
        acts.add(act);
+
+       ComponentActivity act2 = new ComponentActivity();
+       act2.setComponentName("component name2");
+       act2.setComponentId("Id2");
+       act2.setInstanceId("instance Id 2");
+       act2.setStatus(Status.FINISHED);
+
+       acts.add(act2);
+
        return acts;
     }
 }

@@ -47,6 +47,8 @@ public class ConsoleModule extends AbstractPresenterModule {
 
         bind(Gatekeeper.class).to(LoggedInGateKeeper.class);
         bind(CurrentUser.class).in(Singleton.class);
+        bind(BootstrapContext.class).in(Singleton.class);
+        bind(ApplicationProperties.class).to(BootstrapContext.class).in(Singleton.class);
 
         //Presenters
         bindPresenter(LoginPresenter.class, LoginPresenter.LoginView.class, LoginPageView.class,

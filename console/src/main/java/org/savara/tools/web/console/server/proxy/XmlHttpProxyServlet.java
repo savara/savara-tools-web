@@ -90,7 +90,7 @@ public class XmlHttpProxyServlet extends HttpServlet
     public static String REMOTE_USER = "REMOTE_USER";
 
     private static String XHP_LAST_MODIFIED = "xhp_last_modified_key";
-    private static String DEFAULT_CONFIG = "org/savara/tools/web/console/gwt-proxy.properties";
+    private static String DEFAULT_CONFIG = "gwt-proxy.properties";
 
     private static boolean allowXDomain = false;
     private static boolean requireSession = false;
