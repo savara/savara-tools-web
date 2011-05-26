@@ -96,8 +96,12 @@ public class EventViewerWidget extends ApplicationWindow {
 
         resultSection.addItem(grid);
 
+        SectionStackSection detailSection = new SectionStackSection("Activity Detail");
+        detailSection.setExpanded(true);
+
         stack.addSection(findSection);
         stack.addSection(resultSection);
+        stack.addSection(detailSection);
 
         window.addItem(stack);
     }

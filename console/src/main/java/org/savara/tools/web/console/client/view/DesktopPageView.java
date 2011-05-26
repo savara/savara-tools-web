@@ -53,6 +53,8 @@ public class DesktopPageView extends ViewImpl implements DesktopPagePresenter.De
 
     private ApplicationWindow settingsWindow;
 
+    private ApplicationWindow consoleWindow;
+
     private ToolStrip toolstrip;
 
     @Inject
@@ -116,6 +118,12 @@ public class DesktopPageView extends ViewImpl implements DesktopPagePresenter.De
             }
         });
 
+        console.addClickHandler(new ClickHandler() {
+            public void onClick(MenuItemClickEvent menuItemClickEvent) {
+                presenter.showConsoleWindow();
+            }
+        });
+
         return menu;
     }
 
@@ -130,21 +138,26 @@ public class DesktopPageView extends ViewImpl implements DesktopPagePresenter.De
 
 
     public void showEventViewer() {
-            componentActWindow = new EventViewerWidget("Event Viewer", ConsoleIconBundle.INSTANCE.eventDetailIcon().getURL(),
+            componentActWindow = new EventViewerWidget(Messages.EVENT_VIEWER_LABEL, ConsoleIconBundle.INSTANCE.eventDetailIcon().getURL(),
                                                 toolstrip);
             componentActWindow.show();
     }
 
 
     public void showBizTxnWindow() {
-            transactionViewWindow = new ApplicationWindow("Transaction View",
+            transactionViewWindow = new ApplicationWindow(Messages.TRANSACTION_VIEW_LABEL,
                         ConsoleIconBundle.INSTANCE.transactionViewIcon().getURL(), toolstrip);
             transactionViewWindow.show();
     }
 
     public void showSettingsWindow() {
-            settingsWindow = new ApplicationWindow("Settings", ConsoleIconBundle.INSTANCE.settingsIcon().getURL(), toolstrip);
+            settingsWindow = new ApplicationWindow(Messages.SETTINGS_LABEL, ConsoleIconBundle.INSTANCE.settingsIcon().getURL(), toolstrip);
             settingsWindow.show();
+    }
+
+    public void showConsoleWindow() {
+            consoleWindow = new ApplicationWindow(Messages.CONSOLE_LABEL, ConsoleIconBundle.INSTANCE.consoleIcon().getURL(), toolstrip);
+            consoleWindow.show();
     }
 
 
@@ -160,6 +173,11 @@ public class DesktopPageView extends ViewImpl implements DesktopPagePresenter.De
        if (settingsWindow != null) {
            settingsWindow.close();
            settingsWindow = null;
+       }
+
+       if (consoleWindow != null) {
+           consoleWindow.close();
+           consoleWindow = null;
        }
 
     }

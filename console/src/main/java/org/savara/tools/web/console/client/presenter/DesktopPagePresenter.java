@@ -71,7 +71,11 @@ public class DesktopPagePresenter extends Presenter<DesktopPagePresenter.Desktop
 
         public void showSettingsWindow();
 
+        public void showConsoleWindow();
+
         public void closeAllWindows();
+
+
     }
 
 
@@ -110,6 +114,10 @@ public class DesktopPagePresenter extends Presenter<DesktopPagePresenter.Desktop
 
     public void showSettingsWindow() {
         getView().showSettingsWindow();
+    }
+
+    public void showConsoleWindow() {
+        getView().showConsoleWindow();
     }
 
     private void getData() {
