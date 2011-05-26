@@ -17,33 +17,31 @@
  */
 package org.savara.tools.web.server;
 
-import javax.ws.rs.core.Application;
-import java.util.HashSet;
-import java.util.Set;
+import org.codehaus.jackson.map.DeserializationConfig;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
+
+import javax.ws.rs.Produces;
+import javax.ws.rs.ext.ContextResolver;
+import javax.ws.rs.ext.Provider;
+import java.text.SimpleDateFormat;
 
 /**
  * @author: Jeff Yu
- * @date: 17/05/11
+ * @date: 24/05/11
  */
-public class SavaraApplication extends Application {
+@Provider
+@Produces("application/json")
+public class JacksonConfigurator implements ContextResolver<ObjectMapper> {
 
-    private Set<Object> singletons = new HashSet<Object>();
+    private ObjectMapper mapper = new ObjectMapper();
 
-    private Set<Class<?>> claz = new HashSet<Class<?>>();
-
-    public SavaraApplication() {
-        singletons.add(new ActivityService());
+    public JacksonConfigurator() {
+        mapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
     }
 
-    @Override
-    public Set<Class<?>> getClasses() {
-        claz.add(JacksonConfigurator.class);
-        return claz;
-    }
-
-    @Override
-    public Set<Object> getSingletons() {
-        return singletons;
+    public ObjectMapper getContext(Class<?> arg0) {
+        return mapper;
     }
 
 }

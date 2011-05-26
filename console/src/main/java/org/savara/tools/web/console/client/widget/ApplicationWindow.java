@@ -24,16 +24,18 @@ import com.smartgwt.client.widgets.toolbar.ToolStrip;
 import com.smartgwt.client.widgets.toolbar.ToolStripButton;
 
 /**
+ * This class takes care of minimizing the window, clicking the toolstrip button and close window event handler.
+ * This will be base class for the each application that will be pop up.
  * @author: Jeff Yu
  * @date: 14/05/11
  */
 public class ApplicationWindow {
 
-     private Window window;
+     protected Window window;
 
-     private ToolStripButton toolBarBtn;
+     protected ToolStripButton toolBarBtn;
 
-     private ToolStrip strip;
+     protected ToolStrip strip;
 
      public ApplicationWindow(final String title, final String iconUrl, final ToolStrip strip) {
          window = new Window();

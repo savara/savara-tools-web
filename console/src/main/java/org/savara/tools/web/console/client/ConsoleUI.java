@@ -18,6 +18,7 @@
 package org.savara.tools.web.console.client;
 
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.inject.client.AsyncProvider;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 import com.google.inject.Provider;
@@ -25,6 +26,7 @@ import com.gwtplatform.mvp.client.annotations.DefaultGatekeeper;
 import com.gwtplatform.mvp.client.proxy.Gatekeeper;
 import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.client.proxy.ProxyFailureHandler;
+import com.smartgwt.client.widgets.toolbar.ToolStrip;
 import org.savara.tools.web.console.client.auth.CurrentUser;
 import org.savara.tools.web.console.client.presenter.DesktopPagePresenter;
 import org.savara.tools.web.console.client.presenter.LoginPresenter;
@@ -46,7 +48,7 @@ public interface ConsoleUI extends Ginjector {
 
     Provider<LoginPresenter> getLoginPresenter();
 
-    Provider<DesktopPagePresenter> getDesktopPagePresenter();
+    AsyncProvider<DesktopPagePresenter> getDesktopPagePresenter();
 
     @DefaultGatekeeper
     Gatekeeper getLoggedInGateKeeper();

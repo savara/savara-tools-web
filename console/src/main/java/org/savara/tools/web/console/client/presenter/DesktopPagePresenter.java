@@ -20,12 +20,11 @@ package org.savara.tools.web.console.client.presenter;
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.json.client.JSONValue;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.NameToken;
-import com.gwtplatform.mvp.client.annotations.ProxyStandard;
+import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
 import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.client.proxy.PlaceRequest;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
@@ -34,6 +33,7 @@ import org.fusesource.restygwt.client.*;
 import org.savara.tools.web.console.client.ApplicationProperties;
 import org.savara.tools.web.console.client.ConsoleEntryPoint;
 import org.savara.tools.web.console.client.NameTokens;
+import org.savara.tools.web.console.client.model.activity.Activity;
 import org.savara.tools.web.console.client.model.activity.ComponentActivity;
 import org.savara.tools.web.console.client.svc.ActivityService;
 
@@ -52,7 +52,8 @@ public class DesktopPagePresenter extends Presenter<DesktopPagePresenter.Desktop
     private ActivityService activityService;
 
     @Inject
-    public DesktopPagePresenter(EventBus eventBus, DesktopView view, DesktopProxy proxy, PlaceManager placeManager) {
+    public DesktopPagePresenter(EventBus eventBus, DesktopView view, DesktopProxy proxy,
+                                PlaceManager placeManager) {
         super(eventBus, view, proxy);
         this.placeManager = placeManager;
 
@@ -64,7 +65,7 @@ public class DesktopPagePresenter extends Presenter<DesktopPagePresenter.Desktop
 
         public void setPresenter(DesktopPagePresenter presenter);
 
-        public void showEventDetailWindow();
+        public void showEventViewer();
 
         public void showBizTxnWindow();
 
@@ -74,7 +75,7 @@ public class DesktopPagePresenter extends Presenter<DesktopPagePresenter.Desktop
     }
 
 
-    @ProxyStandard
+    @ProxyCodeSplit
     @NameToken(NameTokens.DESKTOP_WINDOW)
     public interface DesktopProxy extends ProxyPlace<DesktopPagePresenter> {}
 
@@ -99,8 +100,7 @@ public class DesktopPagePresenter extends Presenter<DesktopPagePresenter.Desktop
     }
 
     public void showEventDetailWindow() {
-        getView().showEventDetailWindow();
-        getData();
+        getView().showEventViewer();
     }
 
     public void showBusinessTransactionViewerWindow() {
@@ -114,14 +114,13 @@ public class DesktopPagePresenter extends Presenter<DesktopPagePresenter.Desktop
 
     private void getData() {
 
-        activityService.getComponentActivities(new MethodCallback<List<ComponentActivity>>() {
+        activityService.getAllActivities(new MethodCallback<List<Activity>>() {
             public void onFailure(Method method, Throwable throwable) {
-                Log.error("error: => " + throwable);
+                Log.error("error getAllActivities :=> " + method.getResponse().getText());
             }
 
-            public void onSuccess(Method method, List<ComponentActivity> componentActivities) {
-                Log.info("The text is " + method.getResponse().getText());
-                Log.info("====> " + componentActivities.size());
+            public void onSuccess(Method method, List<Activity> activities) {
+                Log.info("====> " + activities.size());
             }
         });
     }

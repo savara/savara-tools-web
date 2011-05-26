@@ -27,4 +27,12 @@ public interface ConsoleIconBundle extends ClientBundle{
     @Source("settings.png")
     ImageResource settingsIcon();
 
+    @Source("search.png")
+    ImageResource searchIcon();
+
+    @Source("system.png")
+    ImageResource systemIcon();
+
+    @Source("console.png")
+    ImageResource consoleIcon();
 }

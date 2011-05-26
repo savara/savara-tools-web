@@ -24,6 +24,7 @@ import com.gwtplatform.mvp.client.DefaultProxyFailureHandler;
 import com.gwtplatform.mvp.client.RootPresenter;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 import com.gwtplatform.mvp.client.proxy.*;
+import com.smartgwt.client.widgets.toolbar.ToolStrip;
 import org.savara.tools.web.console.client.auth.CurrentUser;
 import org.savara.tools.web.console.client.auth.LoggedInGateKeeper;
 import org.savara.tools.web.console.client.presenter.DesktopPagePresenter;

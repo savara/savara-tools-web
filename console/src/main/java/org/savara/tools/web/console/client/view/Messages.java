@@ -15,35 +15,25 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA  02110-1301, USA.
  */
-package org.savara.tools.web.server;
-
-import javax.ws.rs.core.Application;
-import java.util.HashSet;
-import java.util.Set;
+package org.savara.tools.web.console.client.view;
 
 /**
  * @author: Jeff Yu
- * @date: 17/05/11
+ * @date: 25/05/11
  */
-public class SavaraApplication extends Application {
+public class Messages {
 
-    private Set<Object> singletons = new HashSet<Object>();
+    public static final String EVENT_VIEWER_LABEL = "Event Viewer";
 
-    private Set<Class<?>> claz = new HashSet<Class<?>>();
+    public static final String LOGOUT_LABEL = "Logout";
 
-    public SavaraApplication() {
-        singletons.add(new ActivityService());
-    }
+    public static final String SETTINGS_LABEL = "Settings";
 
-    @Override
-    public Set<Class<?>> getClasses() {
-        claz.add(JacksonConfigurator.class);
-        return claz;
-    }
+    public static final String TRANSACTION_VIEW_LABEL = "Transaction Viewer";
 
-    @Override
-    public Set<Object> getSingletons() {
-        return singletons;
-    }
+    public static final String APPLICATION_LABEL = "Applications";
 
+    public static final String SYSTEM_LABEL = "System";
+
+    public static final String CONSOLE_LABEL = "Console";
 }

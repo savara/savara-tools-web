@@ -36,6 +36,7 @@ public class ActivityServiceTest {
           final TJWSEmbeddedJaxrsServer server = new TJWSEmbeddedJaxrsServer();
           server.setPort(8081);
           server.getDeployment().getActualResourceClasses().add(ActivityService.class);
+          server.getDeployment().getActualProviderClasses().add(JacksonConfigurator.class);
           server.start();
       }
 }

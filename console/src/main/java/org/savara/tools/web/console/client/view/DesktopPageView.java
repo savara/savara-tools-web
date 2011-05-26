@@ -17,22 +17,25 @@
  */
 package org.savara.tools.web.console.client.view;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewImpl;
-import com.smartgwt.client.widgets.form.DynamicForm;
-import com.smartgwt.client.widgets.form.fields.TextItem;
+import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.menu.Menu;
 import com.smartgwt.client.widgets.menu.MenuItem;
+import com.smartgwt.client.widgets.menu.MenuItemSeparator;
 import com.smartgwt.client.widgets.menu.events.ClickHandler;
 import com.smartgwt.client.widgets.menu.events.MenuItemClickEvent;
 import com.smartgwt.client.widgets.toolbar.ToolStrip;
 import com.smartgwt.client.widgets.toolbar.ToolStripMenuButton;
 import org.savara.tools.web.console.client.icons.ConsoleIconBundle;
+import org.savara.tools.web.console.client.model.activity.ComponentActivity;
 import org.savara.tools.web.console.client.presenter.DesktopPagePresenter;
 import org.savara.tools.web.console.client.widget.ApplicationWindow;
+import org.savara.tools.web.console.client.widget.EventViewerWidget;
+
+import java.util.List;
 
 /**
  * @author: Jeff Yu
@@ -44,7 +47,7 @@ public class DesktopPageView extends ViewImpl implements DesktopPagePresenter.De
 
     private DesktopPagePresenter presenter;
 
-    private ApplicationWindow eventDetailWindow;
+    private ApplicationWindow componentActWindow;
 
     private ApplicationWindow transactionViewWindow;
 
@@ -56,15 +59,14 @@ public class DesktopPageView extends ViewImpl implements DesktopPagePresenter.De
     public DesktopPageView() {
        layout = new HLayout(0);
        layout.setWidth("100%");
-
        toolstrip = new ToolStrip();
        toolstrip.setWidth("100%");
 
-       ToolStripMenuButton menuButton = new ToolStripMenuButton("Applications", getApplicationsMenus());
+       ToolStripMenuButton menuButton = new ToolStripMenuButton(Messages.APPLICATION_LABEL, getApplicationsMenus());
        toolstrip.addMenuButton(menuButton);
        toolstrip.addSeparator();
 
-       layout.addMember(toolstrip);
+       layout.addMember(this.toolstrip);
     }
 
     private Menu getApplicationsMenus() {
@@ -72,12 +74,22 @@ public class DesktopPageView extends ViewImpl implements DesktopPagePresenter.De
         menu.setShowShadow(true);
         menu.setShadowDepth(3);
 
-        MenuItem logout = new MenuItem("Logout", ConsoleIconBundle.INSTANCE.logoutIcon().getURL());
-        MenuItem eventDetail = new MenuItem("Event Detail", ConsoleIconBundle.INSTANCE.eventDetailIcon().getURL());
-        MenuItem transaction = new MenuItem("Transaction Viewer", ConsoleIconBundle.INSTANCE.transactionViewIcon().getURL());
-        MenuItem settings = new MenuItem("Settings", ConsoleIconBundle.INSTANCE.settingsIcon().getURL());
+        MenuItem logout = new MenuItem(Messages.LOGOUT_LABEL, ConsoleIconBundle.INSTANCE.logoutIcon().getURL());
+        MenuItem eventDetail = new MenuItem(Messages.EVENT_VIEWER_LABEL, ConsoleIconBundle.INSTANCE.eventDetailIcon().getURL());
+        MenuItem transaction = new MenuItem(Messages.TRANSACTION_VIEW_LABEL, ConsoleIconBundle.INSTANCE.transactionViewIcon().getURL());
+        MenuItem system = new MenuItem(Messages.SYSTEM_LABEL, ConsoleIconBundle.INSTANCE.systemIcon().getURL());
 
-        menu.setItems(eventDetail, transaction, settings, logout);
+        MenuItemSeparator separator = new MenuItemSeparator();
+
+        MenuItem settings = new MenuItem(Messages.SETTINGS_LABEL, ConsoleIconBundle.INSTANCE.settingsIcon().getURL());
+        MenuItem console = new MenuItem(Messages.CONSOLE_LABEL, ConsoleIconBundle.INSTANCE.consoleIcon().getURL());
+
+        Menu systemSub = new Menu();
+
+        systemSub.setItems(settings, console);
+        system.setSubmenu(systemSub);
+
+        menu.setItems(eventDetail, transaction, separator, system, separator, logout);
 
         logout.addClickHandler(new ClickHandler() {
             public void onClick(MenuItemClickEvent menuItemClickEvent) {
@@ -117,19 +129,10 @@ public class DesktopPageView extends ViewImpl implements DesktopPagePresenter.De
     }
 
 
-    public void showEventDetailWindow() {
-            eventDetailWindow = new ApplicationWindow("Event Detail", ConsoleIconBundle.INSTANCE.eventDetailIcon().getURL(),
+    public void showEventViewer() {
+            componentActWindow = new EventViewerWidget("Event Viewer", ConsoleIconBundle.INSTANCE.eventDetailIcon().getURL(),
                                                 toolstrip);
-
-            DynamicForm form = new DynamicForm();
-            TextItem activityItem = new TextItem();
-            activityItem.setTitle("Activity ID");
-
-            form.setItems(activityItem);
-
-            eventDetailWindow.getWindow().addItem(form);
-            eventDetailWindow.show();
-
+            componentActWindow.show();
     }
 
 
@@ -146,9 +149,9 @@ public class DesktopPageView extends ViewImpl implements DesktopPagePresenter.De
 
 
     public void closeAllWindows() {
-       if (eventDetailWindow != null) {
-          eventDetailWindow.close();
-          eventDetailWindow = null;
+       if (componentActWindow != null) {
+          componentActWindow.close();
+          componentActWindow = null;
        }
        if (transactionViewWindow != null) {
           transactionViewWindow.close();
