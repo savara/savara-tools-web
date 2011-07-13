@@ -65,14 +65,6 @@ public class DesktopPagePresenter extends Presenter<DesktopPagePresenter.Desktop
 
         public void setPresenter(DesktopPagePresenter presenter);
 
-        public void showEventViewer();
-
-        public void showBizTxnWindow();
-
-        public void showSettingsWindow();
-
-        public void showConsoleWindow();
-
         public void closeAllWindows();
 
 
@@ -101,23 +93,6 @@ public class DesktopPagePresenter extends Presenter<DesktopPagePresenter.Desktop
         getView().closeAllWindows();
         PlaceRequest loginPlace = new PlaceRequest(NameTokens.LOGIN_VIEW);
         placeManager.revealPlace(loginPlace);
-    }
-
-    public void showEventDetailWindow() {
-        getView().showEventViewer();
-    }
-
-    public void showBusinessTransactionViewerWindow() {
-        getView().showBizTxnWindow();
-    }
-
-
-    public void showSettingsWindow() {
-        getView().showSettingsWindow();
-    }
-
-    public void showConsoleWindow() {
-        getView().showConsoleWindow();
     }
 
     private void getData() {

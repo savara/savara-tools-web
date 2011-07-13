@@ -32,8 +32,8 @@ import com.smartgwt.client.widgets.form.fields.PasswordItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
 import com.smartgwt.client.widgets.layout.HLayout;
 import org.savara.tools.web.console.client.Build;
-import org.savara.tools.web.console.client.icons.ConsoleIconBundle;
 import org.savara.tools.web.console.client.presenter.LoginPresenter;
+import org.savara.tools.web.console.client.widget.AppImages;
 
 /**
  * @author: Jeff Yu
@@ -54,7 +54,7 @@ public class LoginPageView extends ViewImpl implements LoginPresenter.LoginView 
     public LoginPageView() {
 
         window = new Window();
-        window.setHeaderIcon(ConsoleIconBundle.INSTANCE.savaraIcon().getURL());
+        window.setHeaderIcon(AppImages.SAVARA_ICON);
         window.setTitle("console");
         window.setWidth(300);
         window.setHeight(150);

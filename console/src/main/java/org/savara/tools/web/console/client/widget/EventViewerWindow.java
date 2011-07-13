@@ -17,40 +17,35 @@
  */
 package org.savara.tools.web.console.client.widget;
 
-import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.VisibilityMode;
-import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.SearchForm;
 import com.smartgwt.client.widgets.form.fields.ButtonItem;
-import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
-import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.SectionStack;
 import com.smartgwt.client.widgets.layout.SectionStackSection;
-import com.smartgwt.client.widgets.layout.VLayout;
-import com.smartgwt.client.widgets.toolbar.ToolStrip;
-import org.savara.tools.web.console.client.icons.ConsoleIconBundle;
-import org.savara.tools.web.console.client.model.activity.Activity;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author: Jeff Yu
  * @date: 26/05/11
  */
-public class EventViewerWidget extends ApplicationWindow {
+public class EventViewerWindow extends DesktopWindow {
 
     private ListGrid grid;
 
     private SectionStack stack;
 
-    public EventViewerWidget(final String title, final String iconUrl, final ToolStrip strip) {
-        super(title, iconUrl, strip);
+    public EventViewerWindow() {
+        super();
+
+        setTitle(AppMessages.EVENT_VIEWER_LABEL);
+        setShortcutIcon(AppImages.EVENT_DETAIL_SHORTCUT);
+        setHeaderIcon(AppImages.EVENT_DETAIL_ICON);
 
         stack = new SectionStack();
         stack.setVisibilityMode(VisibilityMode.MULTIPLE);
@@ -70,7 +65,7 @@ public class EventViewerWidget extends ApplicationWindow {
         contextItem.setTitle("Context");
         ButtonItem findBtn = new ButtonItem("Search");
         findBtn.setStartRow(false);
-        findBtn.setIcon(ConsoleIconBundle.INSTANCE.searchIcon().getURL());
+        findBtn.setIcon(AppImages.SEARCH_ICON);
         findBtn.setWidth("125px");
 
         form.setFields(actIdItem, contextItem, findBtn);
@@ -84,14 +79,12 @@ public class EventViewerWidget extends ApplicationWindow {
         grid.setShowAllRecords(true);
         grid.setHeight(300);
 
-        ListGridField actId = new ListGridField("activityId", "ID");
-        actId.setAlign(Alignment.CENTER);
-        ListGridField actDate = new ListGridField("activityDate", "Date");
-        actDate.setAlign(Alignment.CENTER);
-        ListGridField actCtx = new ListGridField("activityContext", "Context");
-        actCtx.setAlign(Alignment.CENTER);
+        ListGridField actId = new ListGridField("activityId", "ID" , 40);
+        ListGridField actDate = new ListGridField("activityDate", "Date", 150);
+        ListGridField actCtx = new ListGridField("activityContext", "Context", 220);
+        ListGridField actDesc = new ListGridField("activityDescription", "Description");
 
-        grid.setFields(actId, actCtx, actDate);
+        grid.setFields(actId, actCtx, actDesc, actDate);
         grid.setData(getData());
 
         resultSection.addItem(grid);
@@ -103,21 +96,21 @@ public class EventViewerWidget extends ApplicationWindow {
         stack.addSection(resultSection);
         stack.addSection(detailSection);
 
-        window.addItem(stack);
+        this.addItem(stack);
     }
 
     private ActivityRecord[] getData() {
         ActivityRecord[] data = new ActivityRecord[] {
-            new ActivityRecord("1", new Date(), "context1"),
-            new ActivityRecord("2", new Date(), "context2"),
-            new ActivityRecord("3", new Date(), "context3")
+            new ActivityRecord("1", new Date(), "context1", "description111"),
+            new ActivityRecord("2", new Date(), "context2", "description222"),
+            new ActivityRecord("3", new Date(), "context3", "description333")
         };
         return data;
     }
 
     private static class ActivityRecord extends ListGridRecord {
 
-        public ActivityRecord (String id, Date timestamp, String context) {
+        public ActivityRecord (String id, Date timestamp, String context, String descrption) {
             setContext(context);
             setActivityId(id);
             setActivityDate(timestamp);
@@ -145,6 +138,14 @@ public class EventViewerWidget extends ApplicationWindow {
 
         public String getContext() {
             return getAttribute("activityContext");
+        }
+
+        public String getDescription() {
+            return getAttribute("activityDescription");
+        }
+
+        public void setDescription(String description) {
+            setAttribute("activityDescription", description);
         }
     }
 }

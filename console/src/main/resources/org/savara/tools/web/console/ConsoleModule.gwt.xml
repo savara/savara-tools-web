@@ -15,7 +15,6 @@
   <inherits name="com.gwtplatform.mvp.Mvp" />
   <inherits name="com.google.gwt.inject.Inject" />
 
-
   <!-- Specify the app entry point class.                         -->
   <entry-point class='org.savara.tools.web.console.client.ConsoleEntryPoint'/>
 
@@ -33,7 +32,6 @@
   <set-property name="log_FirebugLogger" value="DISABLED" />
   <set-property name="log_WindowLogger" value="DISABLED" />
 
-  <inherits name="com.google.gwt.autobean.AutoBean" />
   <inherits name="com.google.gwt.json.JSON" />
 
   <inherits name="com.google.gwt.http.HTTP" />

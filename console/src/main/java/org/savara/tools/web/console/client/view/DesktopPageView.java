@@ -20,22 +20,12 @@ package org.savara.tools.web.console.client.view;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewImpl;
-import com.smartgwt.client.widgets.grid.ListGrid;
-import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.menu.Menu;
 import com.smartgwt.client.widgets.menu.MenuItem;
-import com.smartgwt.client.widgets.menu.MenuItemSeparator;
 import com.smartgwt.client.widgets.menu.events.ClickHandler;
 import com.smartgwt.client.widgets.menu.events.MenuItemClickEvent;
-import com.smartgwt.client.widgets.toolbar.ToolStrip;
-import com.smartgwt.client.widgets.toolbar.ToolStripMenuButton;
-import org.savara.tools.web.console.client.icons.ConsoleIconBundle;
-import org.savara.tools.web.console.client.model.activity.ComponentActivity;
 import org.savara.tools.web.console.client.presenter.DesktopPagePresenter;
-import org.savara.tools.web.console.client.widget.ApplicationWindow;
-import org.savara.tools.web.console.client.widget.EventViewerWidget;
-
-import java.util.List;
+import org.savara.tools.web.console.client.widget.*;
 
 /**
  * @author: Jeff Yu
@@ -43,143 +33,53 @@ import java.util.List;
  */
 public class DesktopPageView extends ViewImpl implements DesktopPagePresenter.DesktopView {
 
-    private HLayout layout;
+    private Desktop desktop;
 
     private DesktopPagePresenter presenter;
 
-    private ApplicationWindow componentActWindow;
-
-    private ApplicationWindow transactionViewWindow;
-
-    private ApplicationWindow settingsWindow;
-
-    private ApplicationWindow consoleWindow;
-
-    private ToolStrip toolstrip;
-
     @Inject
     public DesktopPageView() {
-       layout = new HLayout(0);
-       layout.setWidth("100%");
-       toolstrip = new ToolStrip();
-       toolstrip.setWidth("100%");
+       desktop = new Desktop();
 
-       ToolStripMenuButton menuButton = new ToolStripMenuButton(Messages.APPLICATION_LABEL, getApplicationsMenus());
-       toolstrip.addMenuButton(menuButton);
-       toolstrip.addSeparator();
+       DesktopWindow eventViewer = new EventViewerWindow();
+       desktop.addShortcut(new Shortcut(eventViewer));
+       desktop.addApplicationToStartMenu(eventViewer);
 
-       layout.addMember(this.toolstrip);
-    }
+       DesktopWindow transactionViewer = new TransactionViewerWindow();
+       desktop.addShortcut(new Shortcut(transactionViewer));
+       desktop.addApplicationToStartMenu(transactionViewer);
 
-    private Menu getApplicationsMenus() {
-        Menu menu = new Menu();
-        menu.setShowShadow(true);
-        menu.setShadowDepth(3);
+       MenuItem system = new MenuItem(AppMessages.SYSTEM_LABEL, AppImages.SYSTEM_ICON);
 
-        MenuItem logout = new MenuItem(Messages.LOGOUT_LABEL, ConsoleIconBundle.INSTANCE.logoutIcon().getURL());
-        MenuItem eventDetail = new MenuItem(Messages.EVENT_VIEWER_LABEL, ConsoleIconBundle.INSTANCE.eventDetailIcon().getURL());
-        MenuItem transaction = new MenuItem(Messages.TRANSACTION_VIEW_LABEL, ConsoleIconBundle.INSTANCE.transactionViewIcon().getURL());
-        MenuItem system = new MenuItem(Messages.SYSTEM_LABEL, ConsoleIconBundle.INSTANCE.systemIcon().getURL());
+       DesktopWindow settingWindow = new SettingWindow();
+       DesktopWindow consoleWindow = new ConsoleWindow();
+       Menu systemSub = new Menu();
+       systemSub.setItems(desktop.createApplicationMenuItem(settingWindow), desktop.createApplicationMenuItem(consoleWindow));
+       system.setSubmenu(systemSub);
 
-        MenuItemSeparator separator = new MenuItemSeparator();
+       desktop.addSeparatorToStartMenu();
+       desktop.addMenuItemToStartMenu(system);
 
-        MenuItem settings = new MenuItem(Messages.SETTINGS_LABEL, ConsoleIconBundle.INSTANCE.settingsIcon().getURL());
-        MenuItem console = new MenuItem(Messages.CONSOLE_LABEL, ConsoleIconBundle.INSTANCE.consoleIcon().getURL());
+       MenuItem logout = new MenuItem(AppMessages.LOGOUT_LABEL, AppImages.LOGOUT_ICON);
+       logout.addClickHandler(new ClickHandler() {
+           public void onClick(MenuItemClickEvent event) {
+               presenter.logout();
+           }
+       });
+       desktop.addMenuItemToStartMenu(logout);
 
-        Menu systemSub = new Menu();
-
-        systemSub.setItems(settings, console);
-        system.setSubmenu(systemSub);
-
-        menu.setItems(eventDetail, transaction, separator, system, separator, logout);
-
-        logout.addClickHandler(new ClickHandler() {
-            public void onClick(MenuItemClickEvent menuItemClickEvent) {
-                 presenter.logout();
-            }
-        });
-
-
-        eventDetail.addClickHandler(new ClickHandler() {
-            public void onClick(MenuItemClickEvent menuItemClickEvent) {
-                 presenter.showEventDetailWindow();
-            }
-        });
-
-        transaction.addClickHandler(new ClickHandler() {
-            public void onClick(MenuItemClickEvent menuItemClickEvent) {
-                 presenter.showBusinessTransactionViewerWindow();
-            }
-        });
-
-        settings.addClickHandler(new ClickHandler() {
-            public void onClick(MenuItemClickEvent menuItemClickEvent) {
-                presenter.showSettingsWindow();
-            }
-        });
-
-        console.addClickHandler(new ClickHandler() {
-            public void onClick(MenuItemClickEvent menuItemClickEvent) {
-                presenter.showConsoleWindow();
-            }
-        });
-
-        return menu;
-    }
-
-
-    public Widget asWidget() {
-        return layout;
     }
 
     public void setPresenter(DesktopPagePresenter presenter) {
         this.presenter = presenter;
     }
 
-
-    public void showEventViewer() {
-            componentActWindow = new EventViewerWidget(Messages.EVENT_VIEWER_LABEL, ConsoleIconBundle.INSTANCE.eventDetailIcon().getURL(),
-                                                toolstrip);
-            componentActWindow.show();
-    }
-
-
-    public void showBizTxnWindow() {
-            transactionViewWindow = new ApplicationWindow(Messages.TRANSACTION_VIEW_LABEL,
-                        ConsoleIconBundle.INSTANCE.transactionViewIcon().getURL(), toolstrip);
-            transactionViewWindow.show();
-    }
-
-    public void showSettingsWindow() {
-            settingsWindow = new ApplicationWindow(Messages.SETTINGS_LABEL, ConsoleIconBundle.INSTANCE.settingsIcon().getURL(), toolstrip);
-            settingsWindow.show();
-    }
-
-    public void showConsoleWindow() {
-            consoleWindow = new ApplicationWindow(Messages.CONSOLE_LABEL, ConsoleIconBundle.INSTANCE.consoleIcon().getURL(), toolstrip);
-            consoleWindow.show();
-    }
-
-
     public void closeAllWindows() {
-       if (componentActWindow != null) {
-          componentActWindow.close();
-          componentActWindow = null;
-       }
-       if (transactionViewWindow != null) {
-          transactionViewWindow.close();
-          transactionViewWindow = null;
-       }
-       if (settingsWindow != null) {
-           settingsWindow.close();
-           settingsWindow = null;
-       }
+        desktop.logout();
+    }
 
-       if (consoleWindow != null) {
-           consoleWindow.close();
-           consoleWindow = null;
-       }
-
+    public Widget asWidget() {
+        return desktop.asWidget();
     }
 
 }

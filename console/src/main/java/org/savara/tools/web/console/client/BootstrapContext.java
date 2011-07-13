@@ -36,8 +36,6 @@ public class BootstrapContext implements ApplicationProperties{
     public BootstrapContext() {
          String svcUrl = GWT.isScript() ? getBaseUrl() + "savara-console-server" : "http://127.0.0.1:8888/app/proxy";
          setProperty(SERVICE_URL, svcUrl);
-
-         Log.info("Restful Service URL is: " + svcUrl);
     }
 
 

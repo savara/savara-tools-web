@@ -15,25 +15,37 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA  02110-1301, USA.
  */
-package org.savara.tools.web.console.client.view;
+package org.savara.tools.web.console.client.widget;
+
+import com.smartgwt.client.data.Record;
 
 /**
- * @author: Jeff Yu
- * @date: 25/05/11
+ *
  */
-public class Messages {
+public class Shortcut extends Record {
 
-    public static final String EVENT_VIEWER_LABEL = "Event Viewer";
+    private DesktopWindow window;
 
-    public static final String LOGOUT_LABEL = "Logout";
+    public Shortcut(DesktopWindow window) {
+        setWindow(window);
+    }
 
-    public static final String SETTINGS_LABEL = "Settings";
+    public String getTitle() {
+        return window.getTitle();
+    }
 
-    public static final String TRANSACTION_VIEW_LABEL = "Transaction Viewer";
+    public String getIcon() {
+        return window.getShortcutIcon();
+    }
 
-    public static final String APPLICATION_LABEL = "Applications";
+    public void setWindow(DesktopWindow window) {
+        this.window = window;
+        setAttribute( "title", window.getTitle());
+        setAttribute( "icon", window.getShortcutIcon());
+    }
 
-    public static final String SYSTEM_LABEL = "System";
+    public DesktopWindow getWindow() {
+        return window;
+    }
 
-    public static final String CONSOLE_LABEL = "Console";
 }
