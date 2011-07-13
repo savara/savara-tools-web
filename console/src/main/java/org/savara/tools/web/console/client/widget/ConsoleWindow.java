@@ -17,8 +17,6 @@
  */
 package org.savara.tools.web.console.client.widget;
 
-import org.savara.tools.web.console.client.icons.ConsoleIconBundle;
-
 /**
  * @author: Jeff Yu
  * @date: 3/06/11
