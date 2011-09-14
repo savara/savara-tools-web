@@ -23,9 +23,9 @@ import java.util.List;
  * @author: Jeff Yu
  * @date: 22/05/11
  */
-public class InteractionActivity extends Activity{
+public class InteractionActivity extends ActivityType{
 
-    private List<MessageParameter> parameter;
+    private List<Message> parameter;
 
     private String destinationType;
 
@@ -41,11 +41,11 @@ public class InteractionActivity extends Activity{
 
     private Boolean outbound;
 
-    public List<MessageParameter> getParameter() {
+    public List<Message> getParameter() {
         return parameter;
     }
 
-    public void setParameter(List<MessageParameter> parameter) {
+    public void setParameter(List<Message> parameter) {
         this.parameter = parameter;
     }
 

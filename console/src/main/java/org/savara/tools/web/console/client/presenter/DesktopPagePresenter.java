@@ -34,7 +34,6 @@ import org.savara.tools.web.console.client.ApplicationProperties;
 import org.savara.tools.web.console.client.ConsoleEntryPoint;
 import org.savara.tools.web.console.client.NameTokens;
 import org.savara.tools.web.console.client.model.activity.Activity;
-import org.savara.tools.web.console.client.model.activity.ComponentActivity;
 import org.savara.tools.web.console.client.svc.ActivityService;
 
 import java.util.List;

@@ -18,38 +18,10 @@
 package org.savara.tools.web.console.client.model.activity;
 
 /**
- * @author: Jeff Yu
- * @date: 22/05/11
+ * 
+ * @author Jeff Yu
+ *
  */
-public class MessageParameter {
+public class ActivityType {
 
-    private Object any;
-
-    private String name;
-
-    private String type;
-
-    public Object getAny() {
-        return any;
-    }
-
-    public void setAny(Object any) {
-        this.any = any;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 }

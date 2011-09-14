@@ -20,7 +20,6 @@ package org.savara.tools.web.console.client.svc;
 import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.RestService;
 import org.savara.tools.web.console.client.model.activity.Activity;
-import org.savara.tools.web.console.client.model.activity.ComponentActivity;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -32,10 +31,6 @@ import java.util.List;
  */
 @Path("/activity")
 public interface ActivityService extends RestService {
-
-    @GET
-    @Path("components")
-    void getComponentActivities(MethodCallback<List<ComponentActivity>> result);
 
     @GET
     @Path("all")

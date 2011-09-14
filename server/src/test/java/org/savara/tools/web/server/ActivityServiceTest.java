@@ -18,7 +18,6 @@
 package org.savara.tools.web.server;
 
 import org.jboss.resteasy.plugins.server.tjws.TJWSEmbeddedJaxrsServer;
-import org.jboss.resteasy.plugins.server.tjws.TJWSServletServer;
 import org.junit.Test;
 
 /**

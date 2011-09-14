@@ -21,44 +21,35 @@ package org.savara.tools.web.console.client.model.activity;
  * @author: Jeff Yu
  * @date: 22/05/11
  */
-public class ComponentActivity extends Activity{
-    private String instanceId;
+public class Message {
 
-    private String componentId;
+    private Object any;
 
-    private String componentName;
+    private String name;
 
-    private Status status;
+    private String type;
 
-    public String getInstanceId() {
-        return instanceId;
+    public Object getAny() {
+        return any;
     }
 
-    public void setInstanceId(String instanceId) {
-        this.instanceId = instanceId;
+    public void setAny(Object any) {
+        this.any = any;
     }
 
-    public String getComponentId() {
-        return componentId;
+    public String getName() {
+        return name;
     }
 
-    public void setComponentId(String componentId) {
-        this.componentId = componentId;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getComponentName() {
-        return componentName;
+    public String getType() {
+        return type;
     }
 
-    public void setComponentName(String componentName) {
-        this.componentName = componentName;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setType(String type) {
+        this.type = type;
     }
 }

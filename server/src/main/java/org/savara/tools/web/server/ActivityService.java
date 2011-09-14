@@ -34,62 +34,50 @@ import java.util.List;
 public class ActivityService {
 
     @GET
-    @Path("components")
-    @Produces("application/json")
-    public List<ComponentActivity> getAllComponentActivity() throws Exception {
-       List<ComponentActivity> acts = new ArrayList<ComponentActivity>();
-       ComponentActivity act = new ComponentActivity();
-       act.setComponentId("componentId");
-       act.setComponentName("component name");
-       act.setId("2053");
-       act.setInstanceId("1");
-       act.setStatus(Status.STARTED);
-       act.setTimestamp(new Date());
-       acts.add(act);
-
-
-       ComponentActivity act2 = new ComponentActivity();
-       act2.setComponentName("component name2");
-       act2.setComponentId("Id2");
-       act2.setInstanceId("instance Id 2");
-       act2.setStatus(Status.FINISHED);
-
-       acts.add(act2);
-
-       return acts;
-    }
-
-    @GET
     @Path("all")
     @Produces("application/json")
     public List<Activity> getAllActivities() throws Exception {
        List<Activity> result = new ArrayList<Activity>();
-       ComponentActivity act = new ComponentActivity();
-       act.setComponentId("componentId");
-       act.setComponentName("component name");
+       Activity act = new Activity();
        act.setId("2053");
-       act.setInstanceId("1");
-       act.setStatus(Status.STARTED);
+       act.setDescriptionCode("Activity Test 1");
        act.setTimestamp(new Date());
+       
+       ComponentId cid = new ComponentId();
+       cid.setApplication("Web application");
+       cid.setComponent("web");
+       cid.setComponentType("Component Type");
+       cid.setInstanceId("instanceId1");
+       cid.setLocation("localhost");
+       cid.setLocationType("IP Adress");
+       
+       act.setSource(cid);
+       
+       InteractionActivity ia = new InteractionActivity();
+       ia.setOperationName("operationName");
+       act.setType(ia);
 
        result.add(act);
 
-       InteractionActivity interactionAct = new InteractionActivity();
-       interactionAct.setId("interaction act Id");
-       interactionAct.setId("2054");
-       interactionAct.setTimestamp(new Date());
-       interactionAct.setExchangeType(ExchangeType.UNDEFINED);
-
-       result.add(interactionAct);
-
-
-       ComponentActivity act2 = new ComponentActivity();
-       act2.setComponentId("componentId");
-       act2.setComponentName("component name");
-       act2.setId("20532");
-       act2.setInstanceId("2");
-       act2.setStatus(Status.STARTED);
+       Activity act2 = new Activity();
+       act2.setId("20531");
+       act2.setDescriptionCode("Activity Test 2");
        act2.setTimestamp(new Date());
+       
+       ComponentId cid2 = new ComponentId();
+       cid2.setApplication("Web application2");
+       cid2.setComponent("web2");
+       cid2.setComponentType("Component Type2");
+       cid2.setInstanceId("instanceId2");
+       cid2.setLocation("localhost");
+       cid2.setLocationType("IP Adress");
+       
+       act2.setSource(cid2);
+       
+       InteractionActivity ia2 = new InteractionActivity();
+       ia2.setOperationName("operationName2");
+       act2.setType(ia2);
+
        result.add(act2);
 
        return result;

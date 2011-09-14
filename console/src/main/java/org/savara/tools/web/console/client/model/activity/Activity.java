@@ -25,6 +25,7 @@ import java.util.List;
  * @date: 21/05/11
  */
 public class Activity {
+	
     private List<Analysis> analysis;
 
     private List<Correlation> correlation;
@@ -34,6 +35,12 @@ public class Activity {
     private String id;
 
     private Date timestamp;
+    
+    private String descriptionCode;
+    
+    private ComponentId componentId;
+    
+    private ActivityType type;
 
     public List<Analysis> getAnalysis() {
         return analysis;
@@ -74,4 +81,29 @@ public class Activity {
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
+
+	public String getDescriptionCode() {
+		return descriptionCode;
+	}
+
+	public void setDescriptionCode(String descriptionCode) {
+		this.descriptionCode = descriptionCode;
+	}
+
+	public ComponentId getComponentId() {
+		return componentId;
+	}
+
+	public void setComponentId(ComponentId componentId) {
+		this.componentId = componentId;
+	}
+
+	public ActivityType getType() {
+		return type;
+	}
+
+	public void setType(ActivityType type) {
+		this.type = type;
+	}	
+    
 }

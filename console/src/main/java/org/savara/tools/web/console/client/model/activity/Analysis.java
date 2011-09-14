@@ -22,4 +22,5 @@ package org.savara.tools.web.console.client.model.activity;
  * @date: 22/05/11
  */
 public class Analysis {
+	
 }
